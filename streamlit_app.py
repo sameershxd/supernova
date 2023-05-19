@@ -1,28 +1,14 @@
+import streamlit as st
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
-from datetime import datetime, date
+from datetime import datetime
 import yfinance as yf
 
-# Function to check if it's a weekend day (Saturday or Sunday)
-def is_weekend():
-    today = date.today()
-    return today.weekday() in [5, 6]  # 5 is Saturday, 6 is Sunday
-
-# Check if it's a weekend and display warning message
-if is_weekend():
-    print("Sorry, the app doesn't work on Saturdays and Sundays.")
-    exit()
-
-# Get stock symbol from user input
-stock_symbol = input("ENTER STOCK SYMBOL FROM YAHOO STOCK: ")
-
-# Get stock data
-df = yf.download(stock_symbol, start="2020-01-01", end=datetime.today().strftime('%Y-%m-%d'))
-df = df.dropna()
-
-# Rest of your code...
+# Create a Streamlit UI
+st.title("Stock Price Prediction")
+stock_symbol = st.text_input("Enter stock symbol from Yahoo Finance")
 
 # Check if the user has entered a stock symbol
 if stock_symbol:
