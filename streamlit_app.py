@@ -5,22 +5,12 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from datetime import datetime
 import yfinance as yf
-import streamlit as st
-import matplotlib.pyplot as plt
 
 # Create a Streamlit UI
 st.title("Stock Price Prediction")
 stock_symbol = st.text_input("Enter stock symbol from Yahoo Finance")
 
 # Check if the user has entered a stock symbol
-# Display scatter plot of 'Open' and 'Close' prices
-st.write("Scatter Plot of 'Open' and 'Close' Prices")
-plt.figure(figsize=(8, 6))
-plt.scatter(df['Open'], df['Close'])
-plt.xlabel('Open Price')
-plt.ylabel('Close Price')
-st.pyplot(plt)
-
 if stock_symbol:
     # Get stock data
     df = yf.download(stock_symbol, start="2020-01-01", end=datetime.today().strftime('%Y-%m-%d'))
