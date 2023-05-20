@@ -5,6 +5,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from datetime import datetime
 import yfinance as yf
+import matplotlib.pyplot as plt
 
 # Create a Streamlit UI
 st.set_page_config(layout="wide")
@@ -76,3 +77,23 @@ if stock_symbol:
     tomorrow_avg = regressor_avg.predict(last_row)[0]
     st.subheader("Tomorrow's Predictions")
     st.write("Tomorrow's opening price - Close: {:.2f}, Open: {:.2f}, Average: {:.2f}".format(tomorrow_close, tomorrow_open, tomorrow_avg))
+
+    # Visualize closing price over time
+    st.subheader("Closing Price Over Time")
+    plt.figure(figsize=(12, 6))
+    plt.plot(df.index, df['Close'])
+    plt.xlabel('Date')
+    plt.ylabel('Closing Price')
+    plt.title('Closing Price Over Time')
+    st.pyplot()
+
+    # Visualize predicted closing price
+    st.subheader("Predicted vs Actual Closing Price")
+    plt.figure(figsize=(12, 6))
+    plt.plot(df.index[-len(y_close_test):], y_close_test, label='Actual Closing Price')
+    plt.plot(df.index[-len(y_close_pred):], y_close_pred, label='Predicted Closing Price')
+    plt.xlabel('Date')
+    plt.ylabel('Closing Price')
+    plt.title('Predicted vs Actual Closing Price')
+    plt.legend()
+    st.pyplot()
