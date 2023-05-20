@@ -16,11 +16,22 @@ if stock_symbol:
     df = yf.download(stock_symbol, start="2020-01-01", end=datetime.today().strftime('%Y-%m-%d'))
     df = df.dropna()
 
+    # Show raw data
+    st.subheader("Raw Data")
+    st.write(df)
+
+    # Perform data preprocessing
+    df['Average'] = (df['Open'] + df['Close'] + df['High'] + df['Low']) / 4
+
+    # Show preprocessed data
+    st.subheader("Preprocessed Data")
+    st.write(df)
+
     # Prepare data for training
     X = df[['Open', 'High', 'Low', 'Volume']].values
     y_close = df['Close'].values
     y_open = df['Open'].values
-    y_avg = (df['Open'].values + df['Close'].values + df['High'].values + df['Low'].values) / 4
+    y_avg = df['Average'].values
 
     # Split data into training and testing sets
     X_train, X_test, y_close_train, y_close_test, y_open_train, y_open_test, y_avg_train, y_avg_test = train_test_split(
@@ -50,6 +61,7 @@ if stock_symbol:
 
     # Print predictions
     predictions = pd.DataFrame({'Actual Open': y_open_test, 'Predicted Open': y_open_pred})
+    st.subheader("Predictions")
     st.write(predictions)
 
     # Predict tomorrow's prices
@@ -58,4 +70,5 @@ if stock_symbol:
     tomorrow_close = regressor_close.predict(last_row)[0]
     tomorrow_open = regressor_open.predict(last_row)[0]
     tomorrow_avg = regressor_avg.predict(last_row)[0]
+    st.subheader("Tomorrow's Predictions")
     st.write("Tomorrow's opening price - Open: {}".format(tomorrow_close, tomorrow_open, tomorrow_avg))
