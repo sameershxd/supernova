@@ -76,7 +76,7 @@ if stock_symbol:
     tomorrow_open = regressor_open.predict(last_row)[0]
     tomorrow_avg = regressor_avg.predict(last_row)[0]
     st.subheader("Tomorrow's Predictions")
-    st.write("Tomorrow's opening price - Close: {:.2f}, Open: {:.2f}, Average: {:.2f}".format(tomorrow_close, tomorrow_open, tomorrow_avg))
+    st.write("Tomorrow's opening price - Open: {:.2f}".format(tomorrow_close, tomorrow_open, tomorrow_avg))
 
     # Visualize closing price over time
     st.subheader("Closing Price Over Time")
