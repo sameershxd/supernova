@@ -76,7 +76,7 @@ if stock_symbol:
     tomorrow_open = regressor_open.predict(last_row)[0]
     tomorrow_avg = regressor_avg.predict(last_row)[0]
     st.subheader("Tomorrow's Predictions")
-    st.write("Tomorrow's opening price - Open: {:.2f}".format(tomorrow_close, tomorrow_open, tomorrow_avg))
+    st.write("Tomorrow's opening price - Close: {:.2f}, Open: {:.2f}, Average: {:.2f}".format(tomorrow_close, tomorrow_open, tomorrow_avg))
 
     # Visualize closing price over time
     st.subheader("Closing Price Over Time")
@@ -96,4 +96,24 @@ if stock_symbol:
     ax.set_ylabel('Closing Price')
     ax.set_title('Predicted vs Actual Closing Price')
     ax.legend()
+    st.pyplot(fig)
+
+    # Visualize high and low prices over time
+    st.subheader("High and Low Prices Over Time")
+    fig, ax = plt.subplots(figsize=(12, 6))
+    ax.plot(df.index, df['High'], label='High Price')
+    ax.plot(df.index, df['Low'], label='Low Price')
+    ax.set_xlabel('Date')
+    ax.set_ylabel('Price')
+    ax.set_title('High and Low Prices Over Time')
+    ax.legend()
+    st.pyplot(fig)
+
+    # Visualize trading volume over time
+    st.subheader("Trading Volume Over Time")
+    fig, ax = plt.subplots(figsize=(12, 6))
+    ax.plot(df.index, df['Volume'])
+    ax.set_xlabel('Date')
+    ax.set_ylabel('Volume')
+    ax.set_title('Trading Volume Over Time')
     st.pyplot(fig)
