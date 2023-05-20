@@ -7,8 +7,12 @@ from datetime import datetime
 import yfinance as yf
 
 # Create a Streamlit UI
+st.set_page_config(layout="wide")
 st.title("Stock Price Prediction")
-stock_symbol = st.text_input("Enter stock symbol from Yahoo Finance")
+
+# Sidebar
+st.sidebar.subheader("Data Selection")
+stock_symbol = st.sidebar.text_input("Enter stock symbol from Yahoo Finance")
 
 # Check if the user has entered a stock symbol
 if stock_symbol:
@@ -60,9 +64,9 @@ if stock_symbol:
     y_avg_pred = regressor_avg.predict(X_test)
 
     # Print predictions
-    predictions = pd.DataFrame({'Actual Open': y_open_test, 'Predicted Open': y_open_pred})
     st.subheader("Predictions")
-    st.write(predictions)
+    predictions = pd.DataFrame({'Actual Open': y_open_test, 'Predicted Open': y_open_pred})
+    st.dataframe(predictions)
 
     # Predict tomorrow's prices
     last_row = df.tail(1)
@@ -71,4 +75,4 @@ if stock_symbol:
     tomorrow_open = regressor_open.predict(last_row)[0]
     tomorrow_avg = regressor_avg.predict(last_row)[0]
     st.subheader("Tomorrow's Predictions")
-    st.write("Tomorrow's opening price - Open: {}".format(tomorrow_close, tomorrow_open, tomorrow_avg))
+    st.write("Tomorrow's opening price - Close: {:.2f}, Open: {:.2f}, Average: {:.2f}".format(tomorrow_close, tomorrow_open, tomorrow_avg))
